@@ -1,0 +1,37 @@
+
+import { createSlice } from "@reduxjs/toolkit";
+import { callApi } from "../action-creators";
+
+/*const apiReducer = createSlice({
+    name: "users",
+    extraReducers: (builder) => {
+        builder.addCase(callApi)
+    }
+});
+
+export default apiReducer.reducer;*/
+
+export const apiReducer = createSlice({
+    name: "users",
+    initialState: {
+        isLoading: false,
+        data: null,
+        isError: false
+    },
+    extraReducers: (builder) => {
+        builder.addCase(callApi.pending, (state, action) => {
+            state.isLoading = true;
+            state.data = action.payload; // Change action.payloads to action.payload
+        });
+        builder.addCase(callApi.fulfilled, (state, action) => { // Change .fullfilled to .fulfilled
+            state.isLoading = false;
+            state.data = action.payload; // Change action.payloads to action.payload
+        });
+        builder.addCase(callApi.rejected, (state, action) => {
+            console.error("Error", action.payload); // Change payloads to payload
+            state.isError = true;
+        });
+    }
+});
+
+export default apiReducer.reducer;
